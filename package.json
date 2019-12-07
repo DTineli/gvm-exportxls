@@ -1,0 +1,29 @@
+{
+  "name": "gvm-exportxls",
+  "version": "1.0.0",
+  "description": "Um aplicativo para se exportar os produtos do programa CIM para xls",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DTineli/gvm-exportxls.git"
+  },
+  "keywords": [
+    "excel",
+    "GVM",
+    "CIM",
+    "Exportar"
+  ],
+  "author": "Daniel Tinelijr",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DTineli/gvm-exportxls/issues"
+  },
+  "homepage": "https://github.com/DTineli/gvm-exportxls#readme",
+  "devDependencies": {
+    "electron": "^7.1.3"
+  }
+}

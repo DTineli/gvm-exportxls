@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="contents/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="contents/bootstrap/js/bootstrap.min.js">
+  <link rel="stylesheet" href="contents/pooper/popper.min.js">
+  <link rel="stylesheet" href="css/index.css">
+  <title>GVM</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <img class="titulo" src="img/gvm-logo.png">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="tab">
+          <button>Importar Tabela</button>
+          <button>Exportar Tabela</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="tabcontent">
+          <div class="arquivo">
+            <label for="arquivo">Escolha uma tabela :</label>
+            <input id="arquivo" type="file" accept=".xlsx, .xls, .csv" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>require('./js/index')</script>
+</body>
+
+</html>
