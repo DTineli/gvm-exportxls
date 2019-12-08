@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="contents/bootstrap/js/bootstrap.min.js">
   <link rel="stylesheet" href="contents/pooper/popper.min.js">
   <link rel="stylesheet" href="css/index.css">
+  <script type="text/javascript" src="./js/index.js"></script>
   <title>GVM</title>
 </head>
 
@@ -22,16 +23,22 @@
     <div class="row">
       <div class="col">
         <div class="tab">
-          <button>Importar Tabela</button>
-          <button>Exportar Tabela</button>
+          <button class="tabButton" onclick="openTab(event, 'importar')">Importar Tabela</button>
+          <button class="tabButton" onclick="openTab(event, 'exportar')">Exportar Tabela</button>
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class=" row">
       <div class="col">
-        <div class="tabcontent">
+        <div id="importar" class="tabcontent">
           <div class="arquivo">
             <label for="arquivo">Escolha uma tabela :</label>
+            <input id="arquivo" type="file" accept=".xlsx, .xls, .csv" />
+          </div>
+        </div>
+        <div id="exportar" class="tabcontent">
+          <div class="arquivo">
+            <label for="arquivo">asfasfsdfsdf</label>
             <input id="arquivo" type="file" accept=".xlsx, .xls, .csv" />
           </div>
         </div>
@@ -39,7 +46,7 @@
     </div>
   </div>
 
-  <script>require('./js/index')</script>
+  <link rel="stylesheet" href="css/index.css">
 </body>
 
 </html>

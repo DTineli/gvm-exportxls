@@ -14,7 +14,7 @@ app.on('ready', () => {
   });
 
   main.loadURL(`file://${__dirname}/app/index.html`);
-  //main.webContents.openDevTools();
+  main.webContents.openDevTools();
 
   main.once('ready-to-show', () => {
     main.show();
