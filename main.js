@@ -1,8 +1,10 @@
-const fs = require('fs');
 const { app, BrowserWindow, ipcMain } = require('electron');
+const XLSX = require('xlsx');
+const DAO = require('./services/DAOProduto');
 
 let main = null;
 app.on('ready', () => {
+  if (main) return;
 
   main = new BrowserWindow({
     width: 800,
@@ -23,10 +25,24 @@ app.on('ready', () => {
 
 });
 
-ipcMain.on('importar', (e, args) => {
+let janelaErros = null;
+ipcMain.on('importar', async (e, arquivo) => {
+  const workbook = await XLSX.readFile(arquivo);
+  const worksheet = workbook.Sheets['Worksheet'];
+
+  const produtos = XLSX.utils.sheet_to_json(worksheet);
+
+  try {
+    const result = await DAO.insertProdutos(produtos);
+
+  } catch (error) {
+
+  }
+
 
 });
 
 app.on('window-all-closed', () => {
+  main = null;
   app.quit();
 });
