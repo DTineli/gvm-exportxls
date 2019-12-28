@@ -25,5 +25,10 @@
   "homepage": "https://github.com/DTineli/gvm-exportxls#readme",
   "devDependencies": {
     "electron": "^7.1.3"
+  },
+  "dependencies": {
+    "mysql2": "^2.0.2",
+    "xlsx": "^0.15.3",
+    "ini": "^1.3.5"
   }
 }

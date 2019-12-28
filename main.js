@@ -1,4 +1,5 @@
-const { app, BrowserWindow } = require('electron');
+const fs = require('fs');
+const { app, BrowserWindow, ipcMain } = require('electron');
 
 let main = null;
 app.on('ready', () => {
@@ -20,4 +21,12 @@ app.on('ready', () => {
     main.show();
   });
 
+});
+
+ipcMain.on('importar', (e, args) => {
+
+});
+
+app.on('window-all-closed', () => {
+  app.quit();
 });
