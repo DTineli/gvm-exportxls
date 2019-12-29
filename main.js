@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const XLSX = require('xlsx');
 const DAO = require('./services/DAOProduto');
 
@@ -36,13 +36,41 @@ ipcMain.on('importar', async (e, arquivo) => {
     const result = await DAO.insertProdutos(produtos);
 
   } catch (error) {
-
+    console.log(error);
   }
 
 
 });
 
+const errorHandle = (e) => {
+  let options = {
+    type: 'error',
+    message: e.message,
+    title: e.title,
+  };
+
+  if (e.custom) {
+    options.message = e.custom.message;
+    options.title = e.custom.title;
+  }
+
+  dialog.showMessageBox(null, options).then(() => {
+    if (e.custom.quit) {
+      app.quit();
+    }
+  });
+}
+
+process.on('unhandledRejection', (e) => {
+  errorHandle(e);
+});
+
+process.on('uncaughtException', (e) => {
+  errorHandle(e);
+});
+
 app.on('window-all-closed', () => {
   main = null;
+  janelaErros = null;
   app.quit();
 });

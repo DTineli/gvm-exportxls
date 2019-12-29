@@ -1,6 +1,15 @@
 const ini = require('ini');
 const fs = require('fs');
 
-const config = ini.parse(fs.readFileSync('./gvmshop.ini', 'utf-8'));
+try {
+  const config = ini.parse(fs.readFileSync('./gvmshop.ini', 'utf-8'));
 
-module.exports = config;
+  module.exports = config;
+} catch (error) {
+  throw {
+    type: 'error',
+    title: 'Erro no INI',
+    message: 'Arquivo INI não foi encontrado ou apresenta erros !'
+  }
+
+}
