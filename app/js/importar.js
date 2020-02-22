@@ -2,6 +2,7 @@ const { ipcRenderer } = require('electron');
 const { dialog } = require('electron').remote;
 
 let importar = document.getElementById('btnImportar');
+const exportar = document.getElementById("btnExportar");
 
 importar.addEventListener('click', () => {
   const arquivo = document.getElementById('inputArquivo');
@@ -22,5 +23,24 @@ importar.addEventListener('click', () => {
     grupo: grupo.value,
     grade: grade.value,
     tabela: tabela.value,
+  });
+});
+
+exportar.addEventListener("click", e => {
+  const grupo = document.getElementById("grupoExportar");
+  const tabela = document.getElementById("tabelaExportar");
+
+  if (grupo.value === "" || tabela.value === "") {
+    dialog.showMessageBox({
+      type: "warning",
+      title: "Atenção",
+      message: "Escolha uma tabela de preço e um grupo para exportar !"
+    });
+    return;
+  }
+
+  ipcRenderer.send("exportar", {
+    grupo: grupo.value,
+    tabela: tabela.value
   });
 });

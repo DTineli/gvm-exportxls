@@ -51,13 +51,20 @@
         </div>
         <div id="exportar" class="tabcontent">
           <div class="arquivo">
-            <label for="arquivo">asfasfsdfsdf</label>
-            <input id="arquivo" type="file" accept=".xlsx, .xls, .csv" />
+            <div class="col">
+              ID do grupo:
+              <input id="grupoExportar" type="number" />
+              <Br />
+              ID da tabela de preço:
+              <input id="tabelaExportar" type="number" />
+            </div>
+            <button id="btnExportar">Exportar</button>
           </div>
         </div>
       </div>
     </div>
   </div>
+  
   <script type="text/javascript" src="./js/importar.js"></script>
   <link rel="stylesheet" href="css/index.css">
 </body>

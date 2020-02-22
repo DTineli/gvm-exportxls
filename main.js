@@ -34,7 +34,7 @@ ipcMain.on('importar', async (e, params) => {
 
   try {
     const result = await DAO.insertProdutos(produtos, params.grupo, params.grade, params.tabela);
-    dialog.showMessageBox(main, {
+    return dialog.showMessageBox(main, {
       type: 'info',
       message: 'Produtos importados !',
       title: 'Sucesso!'
@@ -42,6 +42,25 @@ ipcMain.on('importar', async (e, params) => {
   } catch (error) {
     console.log(error);
   }
+});
+
+const formaData = () => {
+  const hj = new Date();
+
+  return `${hj.getDate()}-${hj.getMonth() +
+    1}-${hj.getFullYear()}-${hj.getHours()}-${hj.getMinutes()}-${hj.getMilliseconds()}`;
+}
+
+ipcMain.on('exportar', async (e, params) => {
+  
+  const produtos = await DAO.getProdutos(params.grupo, params.tabela);
+  const workbook = XLSX.utils.book_new();
+
+  const worksheet = XLSX.utils.json_to_sheet(produtos);
+  XLSX.utils.book_append_sheet(workbook, worksheet);
+
+  const nome = `c:/temp/produtos-${formaData()}.xls`;
+  XLSX.writeFile(workbook, nome);
 });
 
 const errorHandle = (e) => {
@@ -63,13 +82,13 @@ const errorHandle = (e) => {
   });
 }
 
-process.on('unhandledRejection', (e) => {
-  errorHandle(e);
-});
+// process.on('unhandledRejection', (e) => {
+//   errorHandle(e);
+// });
 
-process.on('uncaughtException', (e) => {
-  errorHandle(e);
-});
+// process.on('uncaughtException', (e) => {
+//   errorHandle(e);
+// });
 
 app.on('window-all-closed', () => {
   main = null;
