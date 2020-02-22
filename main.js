@@ -26,20 +26,22 @@ app.on('ready', () => {
 });
 
 let janelaErros = null;
-ipcMain.on('importar', async (e, arquivo) => {
-  const workbook = await XLSX.readFile(arquivo);
+ipcMain.on('importar', async (e, params) => {
+  const workbook = XLSX.readFile(params.arquivo, {raw: true});
   const worksheet = workbook.Sheets['Worksheet'];
 
   const produtos = XLSX.utils.sheet_to_json(worksheet);
 
   try {
-    const result = await DAO.insertProdutos(produtos);
-
+    const result = await DAO.insertProdutos(produtos, params.grupo, params.grade, params.tabela);
+    dialog.showMessageBox(main, {
+      type: 'info',
+      message: 'Produtos importados !',
+      title: 'Sucesso!'
+    })
   } catch (error) {
     console.log(error);
   }
-
-
 });
 
 const errorHandle = (e) => {

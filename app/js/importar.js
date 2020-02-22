@@ -5,7 +5,11 @@ let importar = document.getElementById('btnImportar');
 
 importar.addEventListener('click', () => {
   const arquivo = document.getElementById('inputArquivo');
-  if (!arquivo.files[0]) {
+  const grupo = document.getElementById('grupo');
+  const grade = document.getElementById('grade');
+  const tabela = document.getElementById('tabela');
+
+  if (!arquivo.files[0] || grupo.value === '' || grade.value === '') {
     dialog.showMessageBox({
       type: 'warning',
       title: 'Atenção',
@@ -13,5 +17,10 @@ importar.addEventListener('click', () => {
     });
     return
   }
-  ipcRenderer.send('importar', arquivo.files[0].path);
+  ipcRenderer.send('importar', {
+    arquivo: arquivo.files[0].path,
+    grupo: grupo.value,
+    grade: grade.value,
+    tabela: tabela.value,
+  });
 });

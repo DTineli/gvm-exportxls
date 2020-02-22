@@ -23,4 +23,5 @@ const createCon = async () => {
   }
 }
 
-module.exports = createCon();
+
+module.exports = createCon;
