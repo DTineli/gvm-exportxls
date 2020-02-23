@@ -6,7 +6,7 @@ exports.getProdutos = async (grupo, tabela) => {
   const [
     rows
   ] = await con.query(
-    "select p.referencia as referencia, p.descricao as descricao, t.valor as preco, p.peso_liquido as pesol, p.peso_bruto as pesob from variacao v left join produto p on v.fkproduto = p.recnum left join tabpreitem t on v.recnum = t.fkvariacao where p.fkgrupo = ? and fktabela = ?",
+    "select p.referencia as referencia, p.descricao as descricao, t.valor as preco, p.peso_liquido as pesol, p.peso_bruto as pesob from variacao v left join produto p on v.fkproduto = p.recnum left join tabpreitem t on v.recnum = t.fkvariacao where p.fkgrupo = ? and fktabela = ? and v.situacao = 'A'",
     [grupo, tabela]
   );
   const produtos = [];
@@ -39,7 +39,7 @@ exports.insertProduto = async (produto, grupo, grade, tabela) => {
   );
 
   const variacaoDb = await con.query(
-    "insert into variacao (recnum,fkproduto,fkdetalhe,fkgradeitem,ult_alteracao,situacao) values (null,'?',null,null, now() ,'a')",
+    "insert into variacao (recnum,fkproduto,fkdetalhe,fkgradeitem,ult_alteracao,situacao) values (null,'?',null,null, now() ,'A')",
     [produtoDB[0].insertId]
   );
 
@@ -51,7 +51,15 @@ exports.insertProduto = async (produto, grupo, grade, tabela) => {
 
 exports.insertProdutos = async (produtos, grupo, grade, tabela) => {
   const errors = [];
-  produtos.forEach(async produto => {
-    await this.insertProduto(produto, grupo, grade);
+  produtos.forEach(produto => {
+    errors.push(this.insertProduto(produto, grupo, grade, tabela));
   });
+
+  try {
+    const result = await Promise.all(errors);
+    return result;
+  } catch (error) {
+    console.log(error)
+  }
+
 };

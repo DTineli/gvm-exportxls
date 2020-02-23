@@ -27,13 +27,13 @@ app.on('ready', () => {
 
 let janelaErros = null;
 ipcMain.on('importar', async (e, params) => {
-  const workbook = XLSX.readFile(params.arquivo, {raw: true});
-  const worksheet = workbook.Sheets['Worksheet'];
-
-  const produtos = XLSX.utils.sheet_to_json(worksheet);
-
   try {
+    const workbook = XLSX.readFile(params.arquivo, {raw: true});
+    console.log(workbook)
+    const worksheet = workbook.Sheets['Sheet1'];
+    const produtos = XLSX.utils.sheet_to_json(worksheet);
     const result = await DAO.insertProdutos(produtos, params.grupo, params.grade, params.tabela);
+    console.log(result);
     return dialog.showMessageBox(main, {
       type: 'info',
       message: 'Produtos importados !',
@@ -82,13 +82,13 @@ const errorHandle = (e) => {
   });
 }
 
-// process.on('unhandledRejection', (e) => {
-//   errorHandle(e);
-// });
+process.on('unhandledRejection', (e) => {
+  errorHandle(e);
+});
 
-// process.on('uncaughtException', (e) => {
-//   errorHandle(e);
-// });
+process.on('uncaughtException', (e) => {
+  errorHandle(e);
+});
 
 app.on('window-all-closed', () => {
   main = null;
