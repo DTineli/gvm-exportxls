@@ -22,16 +22,28 @@ exports.getProdutos = async (grupo, tabela) => {
   return produtos;
 };
 
-exports.insertProduto = async (produto, grupo, grade, tabela) => {
+exports.insertProduto = async (produto, grupo, grade, tabela, fornecedor) => {
   const con = await mysql();
   if (produto["Código Pai"] !== "\t") {
+  }
+  let grupoId = grupo;
+  if (grupoId === "") {
+    const descricao = `IMPORTAÇÃO - ${new Date()}`
+    const grupo = await con.query(
+      "INSERT INTO grupo (descricao, ordem, ult_alteracao, entra_boletim, situacao) VALUE ('?', 0, now(), 0, 'A')",
+      [
+        descricao,
+      ]
+    );
+
+    grupoId = grupo.id;
   }
   const produtoDB = await con.query(
     "INSERT INTO produto (referencia, descricao, situacao, tipo, fkgrupo, fkgrade, utiliza_detalhes, peso_liquido, peso_bruto) VALUES (?,?,'A','P',?,?,0,?,?)",
     [
       produto["Código"],
       produto["Descrição"],
-      grupo,
+      grupoId,
       grade,
       produto["Peso líquido (Kg)"],
       produto["Peso bruto (Kg)"]
@@ -43,16 +55,24 @@ exports.insertProduto = async (produto, grupo, grade, tabela) => {
     [produtoDB[0].insertId]
   );
 
+  const fornecedor = await con.query(
+    "INSERT INTO (fkproduto, fkcontato, principal, ult_alteracao)produtocontato VALUES ?, ?, 1, now()",
+    [
+      produto[0].insertId,
+      fornecedor,
+  ]
+  );
+
   const preco = await con.query(
     "insert into tabpreitem (recnum,fkvariacao,fktabela,alteracao,valor,valor_anterior,atualizacao) values (null,?,?,now(),?,'0',now())",
     [variacaoDb[0].insertId, tabela, produto["preço"]]
   );
 };
 
-exports.insertProdutos = async (produtos, grupo, grade, tabela) => {
+exports.insertProdutos = async (produtos, grupo, grade, tabela, fornecedor) => {
   const errors = [];
   produtos.forEach(produto => {
-    errors.push(this.insertProduto(produto, grupo, grade, tabela));
+    errors.push(this.insertProduto(produto, grupo, grade, tabela, fornecedor));
   });
 
   try {

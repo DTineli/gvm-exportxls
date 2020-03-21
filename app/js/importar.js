@@ -7,10 +7,11 @@ const exportar = document.getElementById("btnExportar");
 importar.addEventListener('click', () => {
   const arquivo = document.getElementById('inputArquivo');
   const grupo = document.getElementById('grupo');
+  const fornecedor = document.getElementById('fornecedor');
   const grade = document.getElementById('grade');
   const tabela = document.getElementById('tabela');
 
-  if (!arquivo.files[0] || grupo.value === '' || grade.value === '') {
+  if (!arquivo.files[0] || grade.value === '' || fornecedor.value === '' || tabela.value === '') {
     dialog.showMessageBox({
       type: 'warning',
       title: 'Atenção',
@@ -20,9 +21,10 @@ importar.addEventListener('click', () => {
   }
   ipcRenderer.send('importar', {
     arquivo: arquivo.files[0].path,
-    grupo: grupo.value,
-    grade: grade.value,
+    grupo: grupo.value || "",
+    grade: grade.value || '1',
     tabela: tabela.value,
+    fornecedor: fornecedor.value,
   });
 });
 
@@ -30,7 +32,7 @@ exportar.addEventListener("click", e => {
   const grupo = document.getElementById("grupoExportar");
   const tabela = document.getElementById("tabelaExportar");
 
-  if (grupo.value === "" || tabela.value === "") {
+  if (tabela.value === "") {
     dialog.showMessageBox({
       type: "warning",
       title: "Atenção",
@@ -41,6 +43,7 @@ exportar.addEventListener("click", e => {
 
   ipcRenderer.send("exportar", {
     grupo: grupo.value,
-    tabela: tabela.value
+    tabela: tabela.value,
+    fornecedor: fornecedor.value,
   });
 });
