@@ -1,4 +1,3 @@
-const { dialog } = require('electron');
 const mysql = require('mysql2/promise');
 const ini = require('../iniHelper').GVM;
 
