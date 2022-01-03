@@ -38,14 +38,16 @@ exports.insertProduto = async (produto, grupo, grade, tabela, fornecedor) => {
     grupoId = grupo.id;
   }
   const produtoDB = await con.query(
-    "INSERT INTO produto (referencia, descricao, situacao, tipo, fkgrupo, fkgrade, utiliza_detalhes, peso_liquido, peso_bruto) VALUES (?,?,'A','P',?,?,0,?,?)",
+    "INSERT INTO produto (referencia, descricao, situacao, tipo, fkgrupo, fkgrade, utiliza_detalhes, peso_liquido, peso_bruto, descricao_site, descricao_nfe) VALUES (?,?,'A','P',?,?,0,?,?,?,?)",
     [
       produto["Código"],
       produto["Descrição"],
       grupoId,
       grade,
       produto["Peso líquido (Kg)"],
-      produto["Peso bruto (Kg)"]
+      produto["Peso bruto (Kg)"],
+      produto["Descrição"],
+      produto["Descrição"]
     ]
   );
 
